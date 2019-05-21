@@ -1,2 +1,0 @@
-# vector-implementation
-My vector

@@ -1,6 +1,8 @@
 Run:
-	g++ -o test funVector.cpp mainVector.cpp
-	./test 
-	rm test
+	g++ -o test v1.cpp Funkcijos.cpp classFun.cpp
+	./test
+	rm test 
 Clean:
-	rm test
+	rm test Vargsiukai.md Saunuoliai.md
+Clear:
+	rm *.md

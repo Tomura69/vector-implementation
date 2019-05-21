@@ -1,7 +1,11 @@
 # vector-implementation
 My vector
-# 1
-1-oji užduotis
+### :computer:[Tomas::vecotr](https://github.com/Tomura69/vector-implementation/releases/tag/VECTORIUS)
+### 1
+1-oji užduotis: funkcijos.
+pasirinkau erase (iterator, iterator), reallocate (), assign (iterator, iterator), vector (iterator, iterator) ir resize (sz).
+
+- Pirma funkcija ištrina vectoriaus pasirinktą dalį ir gražina rodyklę į vectorių, kurio dalis buvo ištrinta.
 ```
 iterator erase(const_iterator first, const_iterator last) {
                 iterator f = &arr[first - arr];
@@ -13,6 +17,7 @@ iterator erase(const_iterator first, const_iterator last) {
                 return f;
             }
 ```
+- Antra funkcija perkopijuoja senus elementus į didesnę ir naujai išskirtą vietą, pagrinde ji naudojama su push_back funkcija.
 ```
 inline void reallocate(){
                 T *tarr = new T[rsrv_sz];
@@ -21,6 +26,7 @@ inline void reallocate(){
                 arr = tarr;
             }
 ```
+- Trečia funkcija priskiria naujas reikšmes pasirinktam vektoriaus blokui.
 ```
 void assign(typename vector<T>::iterator first, typename vector<T>::iterator last) {
                 size_type i, count = last - first;
@@ -33,6 +39,7 @@ void assign(typename vector<T>::iterator first, typename vector<T>::iterator las
                 vec_sz = count;
             }
 ```
+- Ketvirta funkcija yra konstruktorius, kuriuo konstruoju vektorių iš kito vektoriaus kažkurios dalies.
 ```
 vector(typename vector<T>::iterator first, typename vector<T>::iterator last) {
                 size_type i, count = last - first;
@@ -43,6 +50,7 @@ vector(typename vector<T>::iterator first, typename vector<T>::iterator last) {
                 vec_sz = count;
             }
 ```
+- Penkta funkcija priskiria vektorius naują dydį, jei reikia ištrinami nereikalingi elementai.
 ```
 void resize(size_type sz) {
                 if (sz > vec_sz) {
@@ -58,7 +66,7 @@ void resize(size_type sz) {
                 vec_sz = sz;
             }
 ```
-## 2
+### 2
 2-oji užduotis
 ```
 Failo dydis: 10000

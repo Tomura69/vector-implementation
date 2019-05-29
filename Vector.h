@@ -25,27 +25,37 @@ namespace Tomas {
             // konstruktoriai
             vector() noexcept {arr = new T[rsrv_sz];}
             explicit vector(size_type n) {
-                size_type i;
-                rsrv_sz = n << 2;
-                arr = new T[rsrv_sz];
-                for (i = 0; i < n; ++i)
-                    arr[i] = T();
-                vec_sz = n;
+            	if (LNI_VECTOR_MAX_SZ <= n){
+            		throw std::range_error("size is too big");
+            	}
+            	else{
+	            	size_type i;
+	                rsrv_sz = n << 2;
+	                arr = new T[rsrv_sz];
+            	}
+                
             }
             vector(size_type n, const T &val) {
-                size_type i;
-                rsrv_sz = n << 2;
-                arr = new T[rsrv_sz];
-                for (i = 0; i < n; ++i)
-                    arr[i] = val;
-                vec_sz = n;
+                if (LNI_VECTOR_MAX_SZ <= n){
+            		throw std::range_error("size is too big");
+            	}
+            	else{
+                    size_type i;
+                    rsrv_sz = n << 2;
+                    arr = new T[rsrv_sz];
+                    for (i = 0; i < n; ++i)
+                        arr[i] = val;
+                    vec_sz = n;
+                }
             }
             vector(typename vector<T>::iterator first, typename vector<T>::iterator last) {
                 size_type i, count = last - first;
                 rsrv_sz = count << 2;
                 arr = new T[rsrv_sz];
-                for (i = 0; i < count; ++i, ++first)
+                //nepriskiria reiksmiu kazkodel
+                for (i = 0; i < count; ++i, ++first){
                     arr[i] = *first;
+                }
                 vec_sz = count;
             }
             vector(std::initializer_list<T> lst) {
@@ -64,13 +74,15 @@ namespace Tomas {
             }
             vector(vector<T> &&other) noexcept {
                 size_type i;
+                vec_sz = other.vec_sz;
                 rsrv_sz = other.rsrv_sz;
                 arr = new T[rsrv_sz];
-                for (i = 0; i < other.vec_sz; ++i)
-                    arr[i] = std::move(other.arr[i]);
-                vec_sz = other.vec_sz;
+                arr = other.arr;
             }
-            ~vector() {delete [] arr;}
+            ~vector() {
+                delete [] arr;
+                //std::cout << "D-tor" << std::endl;
+                }
             vector<T> & operator = (const vector<T> &other) {
                 size_type i;
                 if (rsrv_sz < other.vec_sz) {
@@ -81,14 +93,13 @@ namespace Tomas {
                     arr[i] = other.arr[i];
                 vec_sz = other.vec_sz;
             }
-            vector<T> & operator = (vector<T> &&other) {
+            vector<T> & operator = (const vector<T> &&other) {
                 size_type i;
                 if (rsrv_sz < other.vec_sz) {
                     rsrv_sz = other.vec_sz << 2;
                     reallocate();
                 }
-                for (i = 0; i < other.vec_sz; ++i)
-                    arr[i] = std::move(other.arr[i]);
+                arr = other.arr;
                 vec_sz = other.vec_sz;
             }
             vector<T> & operator = (std::initializer_list<T> lst) {
@@ -187,8 +198,18 @@ namespace Tomas {
             }
 
             // iteravimas
-            reference operator [](size_type idx) {return arr[idx];}
-            const_reference operator [](size_type idx) const {return arr[idx];}
+            reference operator [](size_type idx) {
+            	if (idx < vec_sz)
+                    return arr[idx];
+                else
+                    throw std::out_of_range("accessed position is out of range");
+            }
+            const_reference operator [](size_type idx) const {
+            	if (idx < vec_sz)
+                    return arr[idx];
+                else
+                    throw std::out_of_range("accessed position is out of range");
+            }
             reference at(size_type pos) {
                 if (pos < vec_sz)
                     return arr[pos];
@@ -326,8 +347,12 @@ namespace Tomas {
             iterator erase(const_iterator first, const_iterator last) {
                 iterator f = &arr[first - arr];
                 if (first == last) return f;
-                for ( ; first != last; ++first)
+                //Neiskviecia destruktoriaus
+                for ( ; first != last; ++first){
+                    //delete[] first;
                     (*first).~T();
+                    //std::cout << *first << std::endl;
+                }
                 memmove(f, last, (vec_sz - (last - arr)) * sizeof(T));
                 vec_sz -= last - first;
                 return f;
@@ -350,9 +375,18 @@ namespace Tomas {
                 for (i = 0; i < vec_sz; ++i)
                     arr[i].~T();
                 vec_sz = 0;
+                rsrv_sz = 4;
             }
 
             // daugiau operatoriu
+            friend vector<T> operator + (const vector<T> &a, const vector<T> &b) {
+                if (a.size() != b.size())
+                    throw std::runtime_error("Vektorių dydžio neatitikimas!");
+                auto size = a.size();
+                vector<T> c(size);
+                for (auto i = 0; i != a.size(); ++i) c.arr[i] = a.arr[i] + b.arr[i];
+                return c;
+            }
             bool operator == (const vector<T> &rhs) const {
                 if (vec_sz != rhs.vec_sz) return false;
                 size_type i;
@@ -403,9 +437,13 @@ namespace Tomas {
             T *arr;
 
             inline void reallocate(){
+                size_type i;
                 T *tarr = new T[rsrv_sz];
                 memcpy(tarr, arr, vec_sz * sizeof(T));
-                delete [] arr;
+                //delete [] arr;
+                for (i = rsrv_sz; i = 0; --i){
+                    delete[] arr;
+                }
                 arr = tarr;
             }
     };

@@ -130,7 +130,7 @@ void Irasymas (TipasC& Minksti, TipasC& Studentai){
     std::ofstream fr1("Saunuoliai.md");
     std::ofstream fr2("Vargsiukai.md");
     for (int i = 0; i < Minksti.size(); i++){
-        fr2 << Minksti[i] << endl;
+        //fr2 << Minksti[i] << endl;
     }
     for (int i = 0; i < Studentai.size(); i++){
         fr1 << Studentai[i] << endl;

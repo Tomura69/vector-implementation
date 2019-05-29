@@ -20,7 +20,7 @@ class Human{
 class Studentas : public Human{
     private:
         double galutinis, mediana, galmed;
-        Tomas::vector<int> nd;
+        std::vector<int> nd;
     public:
         //Seteriai
         Studentas() {};

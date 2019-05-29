@@ -24,7 +24,7 @@ using std::cout;
 using std::cin;
 using std::endl;
 
-typedef std::vector<Studentas> TipasC;
+typedef Tomas::vector<Studentas> TipasC;
 
 bool Patikra (std::string a);
 void Ilgiausias (int & didvar, int & didpav, std::string var, std::string pav);

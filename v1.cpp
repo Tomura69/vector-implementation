@@ -11,10 +11,10 @@ int main (int argc, char *argv[]){
 
     cout << "Darbas su vector:" << endl;
     int dydis = 10;
-    for (int i = 0; i < 5; i++){
+    for (int i = 0; i < 1; i++){
         auto startas = std::chrono::system_clock::now();
         try {
-            Generavimas (dydis);
+            //Generavimas (dydis);
             Skaitymas (dydis, m, Studentai);
             } catch (const char* msg){
                 cout << msg << endl;

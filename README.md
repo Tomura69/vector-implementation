@@ -67,7 +67,7 @@ void resize(size_type sz) {
             }
 ```
 ### 2
-2-oji užduotis
+2-oji užduotis: Atlikite efektyvumo/spartos analizę: originalusis `std::vector` vs Jūsų `Vector`.
 ```
 Failo dydis: 10000
 std::vecotor uztruko: 0.0003604 sekundziu
@@ -94,7 +94,7 @@ std::vecotor uztruko: 3.36068 sekundziu
 Tomas::vecotor uztruko: 1.72374 sekundziu
 ```
 ### 3
-3-oji užduotis
+3-oji užduotis: Palyginkite kiek kartų 2 užduotyje įvyksta konteinerių atminties perskirstymas.
 ```
 Failo dydis: 100000000
 std::vecotor uztruko: 3.46564 sekundziu
